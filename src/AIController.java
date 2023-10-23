@@ -1,17 +1,18 @@
-public class AIController {
-    private PlayerController playerController;
-    private Rect ball;
+public class AIController extends Controller {
+    private Rect rect;
+    private Ball ball;
 
-    public AIController(PlayerController plrController, Rect ball) {
-        this.playerController = plrController;
+    public AIController(Rect rect, Ball ball) {
+        this.rect = rect;
         this.ball = ball;
     }
+
+    @Override
     public void update(double dt){
-//        playerController.update(dt);
-        if(ball.y<playerController.getRect().y){
-            playerController.moveUp(dt);
-        }else if (ball.y+ball.height>playerController.getRect().height){
-            playerController.moveDown(dt);
+        if(ball.getBody().y<rect.y){
+           moveUp(dt,this.rect);
+        }else if (ball.getBody().y+ball.getBody().height>rect.height){
+            moveDown(dt,this.rect);
         }
     }
 }

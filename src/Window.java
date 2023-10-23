@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class Window extends JFrame implements Runnable {
     private Graphics2D g2;
     private ButtonListener keyListener = new ButtonListener();
+    //
     private Rect player;
     private Rect ai;
-    private Rect ball;
+    //
+    private Ball ball;
+    private Rect ballBody;
+    //
     private PlayerController playerController;
     private AIController aiController;
 
@@ -25,10 +28,11 @@ public class Window extends JFrame implements Runnable {
         playerController = new PlayerController(player, keyListener);
 
         ai = new Rect(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING, 40, Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT, Constants.PADDLE_COLOR);
-        ball = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants.BALL_SIZE, Constants.BALL_SIZE, Color.RED);
 
+        ballBody = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants.BALL_SIZE, Constants.BALL_SIZE, Color.RED);
+        ball = new Ball(ballBody,player,ai);
 
-        aiController=new AIController(new PlayerController(ai),ball);
+        aiController=new AIController(ai,ball);
     }
 
     /**
@@ -52,7 +56,7 @@ public class Window extends JFrame implements Runnable {
      * 5.Then the g2.drawImage(doubleBufferImage, 0, 0, this) method is called,
      * which displays the contents of the doubleBufferImage image on the graphical context of g2.
      *
-     * @param dt is a update frequency frame
+     * @param dt is an update frequency frame
      * This is necessary for smooth display without visible flickering.
      * Note: g2 represents the graphical context of the component on which the game is displayed.
      *
@@ -64,6 +68,7 @@ public class Window extends JFrame implements Runnable {
         g2.drawImage(doubleBufferImage, 0, 0, this);
         playerController.update(dt);
         aiController.update(dt);
+        ball.update(dt);
         Constants.TOOLBAR_HEIGHT=this.getInsets().top;//setting the height of the toolbar (toolbar)-> the paddle won`t get into the toolbar
         Constants.INSETS_BOTTOM=this.getInsets().bottom;
     }
@@ -74,7 +79,7 @@ public class Window extends JFrame implements Runnable {
         g2.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         player.draw(g2);
         ai.draw(g2);
-        ball.draw(g2);
+        ballBody.draw(g2);
     }
 
     @Override
