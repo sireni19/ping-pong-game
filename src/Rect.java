@@ -1,13 +1,12 @@
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-@Data
-
 public class Rect {
     public double x, y, width, height;
-    private Color color;
+    public Color color;
 
 
     public Rect(double x, double y, double width, double height, Color color) {

@@ -9,6 +9,7 @@ public class Window extends JFrame implements Runnable {
     private Rect ai;
     private Rect ball;
     private PlayerController playerController;
+    private AIController aiController;
 
     public Window() {
         this.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
@@ -25,6 +26,9 @@ public class Window extends JFrame implements Runnable {
 
         ai = new Rect(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING, 40, Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT, Constants.PADDLE_COLOR);
         ball = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants.BALL_SIZE, Constants.BALL_SIZE, Color.RED);
+
+
+        aiController=new AIController(new PlayerController(ai),ball);
     }
 
     /**
@@ -59,6 +63,7 @@ public class Window extends JFrame implements Runnable {
         this.draw(doubleBufferGraphic);
         g2.drawImage(doubleBufferImage, 0, 0, this);
         playerController.update(dt);
+        aiController.update(dt);
         Constants.TOOLBAR_HEIGHT=this.getInsets().top;//setting the height of the toolbar (toolbar)-> the paddle won`t get into the toolbar
         Constants.INSETS_BOTTOM=this.getInsets().bottom;
     }
