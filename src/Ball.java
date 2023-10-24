@@ -4,8 +4,8 @@ public class Ball {
     private Rect leftPaddle;
     private Rect rightPaddle;
     //velocity x,y
-    private double vy = 400.0;
-    private double vx = -150.0;
+    private double vy = 10.0;
+    private double vx = -200.0;
 
     public Rect getBody() {
         return body;
@@ -18,41 +18,63 @@ public class Ball {
         this.rightPaddle = rightPaddle;
     }
 
+    public double calculateNewVelocityAngle(Rect paddle) {
+        double relativeIntersectY = (paddle.y + (paddle.height / 2.0)) - (this.body.y + (this.body.height) / 2.0);
+        double normalIntersect = relativeIntersectY / (paddle.height / 2.0);
+        double theta = normalIntersect * Constants.MAX_ANGLE;
+        return theta;
+    }
+
     public void update(double dt) {
-        if (vx < 0) {
-            //case when ball(rect) touches left paddle
-            if (this.body.x <= this.leftPaddle.x + this.leftPaddle.width && this.body.x + this.body.width >= this.leftPaddle.x &&
-                    this.body.y >= this.leftPaddle.y && this.body.y <= this.leftPaddle.y + this.leftPaddle.height) {
-                this.vx *= -1;
-                this.vy *= -1;
-            }else if(this.body.x+ this.body.width<this.leftPaddle.x){
-                System.out.println("Player has lost");
-            }
-        } else if (vx > 0) {
-            //case when ball(rect) touches right paddle
-            if (this.body.x + this.body.width >= this.rightPaddle.x && this.body.x <= this.rightPaddle.x + this.rightPaddle.width &&
-                    this.body.y >= this.rightPaddle.y && this.body.y <= this.rightPaddle.y + this.rightPaddle.height) {
-                this.vx *= -1;
-                this.vy *= -1;
-            }else if(this.body.x+this.body.width>this.rightPaddle.x+this.rightPaddle.width){
-                System.out.println("AI has lost");
-            }
-        }
-        if (vy>0){
+
+        double dX = vx * dt;
+        double dY = vy * dt;
+        if (vy >= 0.0) {
             //case when ball(rect) touches bottom border
-            if(this.body.y+this.body.height>Constants.SCREEN_HEIGHT){
-                this.vy*=-1;
+            if (this.body.y + this.body.height + dY > Constants.SCREEN_HEIGHT - Constants.INSETS_BOTTOM) {
+                this.vy *= -1.0;
             }
-        }else if (vy<0) {
+        } else if (vy < 0.0) {
             //case when ball(rect) touches top border
-            if(this.body.y<Constants.TOOLBAR_HEIGHT){
-                this.vy*=-1;
+            if (this.body.y + dY < Constants.TOOLBAR_HEIGHT) {
+                this.vy *= -1.0;
             }
         }
+
+        if (vx < 0.0) {
+            //case when ball(rect) touches left paddle
+            if (this.body.x + dX < leftPaddle.x + leftPaddle.width) {
+                if (this.body.y + dY > leftPaddle.y &&
+                        this.body.y + dY + this.body.height < leftPaddle.y + leftPaddle.height) {
+                    double theta = calculateNewVelocityAngle(leftPaddle);
+                    double newVx = Math.abs((Math.cos(theta)) * Constants.BALL_SPEED);
+                    double newVy = (-Math.sin(theta)) * Constants.BALL_SPEED;
+
+                    double oldSign = Math.signum(vx);
+                    this.vx = newVx * (oldSign * -1.0);
+                    this.vy = newVy;
+                }
+            }
+        } else if (vx >= 0.0) {
+            //case when ball(rect) touches right paddle
+            if (this.body.x + dX + this.body.width >= this.rightPaddle.x) {
+                if (this.body.y + dY > this.rightPaddle.y &&
+                        this.body.y + dY + this.body.height < this.rightPaddle.y + this.rightPaddle.height) {
+                    double theta = calculateNewVelocityAngle(rightPaddle);
+                    double newVx = Math.abs((Math.cos(theta)) * Constants.BALL_SPEED);
+                    double newVy = (-Math.sin(theta)) * Constants.BALL_SPEED;
+
+                    double oldSign = Math.signum(vx);
+                    this.vx = newVx * (oldSign * -1.0);
+                    this.vy = newVy;
+                }
+            }
+        }
+
         //position = position+ velocity
         //velocity = velocity + acceleration
-        this.body.x += vx * dt;
-        this.body.y += vy * dt;
+        this.body.y += dY;
+        this.body.x += dX;
 
 
     }

@@ -17,6 +17,8 @@ public class Constants {
 
     //Ball
     public static final double BALL_SIZE = 10;
+    public static final double BALL_SPEED=200;
+    public static final double MAX_ANGLE=45;
 
     //Toolbar
     public static double TOOLBAR_HEIGHT;
