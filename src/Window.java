@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 
 public class Window extends JFrame implements Runnable {
@@ -13,6 +14,9 @@ public class Window extends JFrame implements Runnable {
     //
     private PlayerController playerController;
     private AIController aiController;
+    //
+    private Text leftScoreText,rightScoreText;
+
 
     public Window() {
         this.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
@@ -29,10 +33,14 @@ public class Window extends JFrame implements Runnable {
 
         ai = new Rect(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING, 40, Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT, Constants.PADDLE_COLOR);
 
+        leftScoreText = new Text(0,new Font("Arial", FontUIResource.PLAIN,Constants.TEXT_SIZE),Constants.TEXT_X,Constants.TEXT_Y);
+        rightScoreText = new Text(0,new Font("Arial", FontUIResource.PLAIN,Constants.TEXT_SIZE),Constants.SCREEN_WIDTH-Constants.TEXT_X-Constants.TEXT_SIZE,Constants.TEXT_Y);
+
         ballBody = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants.BALL_SIZE, Constants.BALL_SIZE, Color.RED);
-        ball = new Ball(ballBody,player,ai);
+        ball = new Ball(ballBody,player,ai,leftScoreText,rightScoreText);
 
         aiController=new AIController(ai,ball);
+
     }
 
     /**
@@ -77,6 +85,8 @@ public class Window extends JFrame implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.GRAY);
         g2.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+        leftScoreText.draw(g2);
+        rightScoreText.draw(g2);
         player.draw(g2);
         ai.draw(g2);
         ballBody.draw(g2);

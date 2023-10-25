@@ -18,11 +18,17 @@ public class Constants {
     //Ball
     public static final double BALL_SIZE = 10;
     public static final double BALL_SPEED=200;
-    public static final double MAX_ANGLE=45;
+    public static final double MAX_ANGLE=30;
 
     //Toolbar
     public static double TOOLBAR_HEIGHT;
     public static double INSETS_BOTTOM;
+
+    //Text
+    public static final int TEXT_Y=50;
+    public static final int TEXT_X=10;
+    public static final int TEXT_SIZE=20;
+    public static final int WIN_SCORE=11;
 
 
 }
