@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 
 public class Window extends JFrame implements Runnable {
@@ -15,7 +14,8 @@ public class Window extends JFrame implements Runnable {
     private PlayerController playerController;
     private AIController aiController;
     //
-    private Text leftScoreText,rightScoreText;
+    private Text leftScoreText, rightScoreText;
+    private boolean isRunning = true;
 
 
     public Window() {
@@ -33,13 +33,13 @@ public class Window extends JFrame implements Runnable {
 
         ai = new Rect(Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING, 40, Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT, Constants.PADDLE_COLOR);
 
-        leftScoreText = new Text(0,new Font("Arial", FontUIResource.PLAIN,Constants.TEXT_SIZE),Constants.TEXT_X,Constants.TEXT_Y);
-        rightScoreText = new Text(0,new Font("Arial", FontUIResource.PLAIN,Constants.TEXT_SIZE),Constants.SCREEN_WIDTH-Constants.TEXT_X-Constants.TEXT_SIZE,Constants.TEXT_Y);
+        leftScoreText = new Text(0, new Font("Arial", Font.PLAIN, Constants.TEXT_SIZE), Constants.TEXT_X, Constants.TEXT_Y);
+        rightScoreText = new Text(0, new Font("Arial", Font.PLAIN, Constants.TEXT_SIZE), Constants.SCREEN_WIDTH - Constants.TEXT_X - Constants.TEXT_SIZE, Constants.TEXT_Y);
 
         ballBody = new Rect(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2, Constants.BALL_SIZE, Constants.BALL_SIZE, Color.RED);
-        ball = new Ball(ballBody,player,ai,leftScoreText,rightScoreText);
+        ball = new Ball(ballBody, player, ai, leftScoreText, rightScoreText);
 
-        aiController=new AIController(ai,ball);
+        aiController = new AIController(ai, ball);
 
     }
 
@@ -50,24 +50,23 @@ public class Window extends JFrame implements Runnable {
      * The doubleBufferImage image represents the memory into which the graphical elements of the game are drawn.
      * This is a hidden back buffer on which the components of the game
      * (such as the player, artificial intelligence, ball) are drawn.
-     *
+     * <p>
      * 2. The graphical context (doubleBufferGraphic) is received from the doubleBufferImage image. This is a "tool"
      * with which graphical elements are rendered on doubleBufferGraphic.
-     *
+     * <p>
      * 3. The draw() method with parameter (doubleBufferGraphic) is called. As a result of calling such a method
      * is:graphical elements of the game will be drawn on the doubleBufferImage, which will then be
      * used to display the image on the screen when calling the g2.drawImage(doubleBufferImage, 0, 0, this) method.
-     *
+     * <p>
      * 4. After all the components of the game have been rendered by doubleBufferGraphic,
      * the doubleBufferImage image contains the full game scene.
-     *
+     * <p>
      * 5.Then the g2.drawImage(doubleBufferImage, 0, 0, this) method is called,
      * which displays the contents of the doubleBufferImage image on the graphical context of g2.
      *
      * @param dt is an update frequency frame
-     * This is necessary for smooth display without visible flickering.
-     * Note: g2 represents the graphical context of the component on which the game is displayed.
-     *
+     *           This is necessary for smooth display without visible flickering.
+     *           Note: g2 represents the graphical context of the component on which the game is displayed.
      */
     public void update(double dt) {
         Image doubleBufferImage = createImage(getWidth(), getHeight());
@@ -77,8 +76,8 @@ public class Window extends JFrame implements Runnable {
         playerController.update(dt);
         aiController.update(dt);
         ball.update(dt);
-        Constants.TOOLBAR_HEIGHT=this.getInsets().top;//setting the height of the toolbar (toolbar)-> the paddle won`t get into the toolbar
-        Constants.INSETS_BOTTOM=this.getInsets().bottom;
+        Constants.TOOLBAR_HEIGHT = this.getInsets().top;//setting the height of the toolbar (toolbar)-> the paddle won`t get into the toolbar
+        Constants.INSETS_BOTTOM = this.getInsets().bottom;
     }
 
     public void draw(Graphics g) {
@@ -95,12 +94,21 @@ public class Window extends JFrame implements Runnable {
     @Override
     public void run() {
         double lastFrameTime = 0.0;
-        while (true) {
+        while (isRunning) {
             double time = Time.getTime();
             double deltaTime = time - lastFrameTime;
             lastFrameTime = time;
             update(deltaTime);
 
         }
+        this.dispose();
+        return;
     }
+
+    public void stop() {
+        isRunning = false;
+    }
+
 }
+
+

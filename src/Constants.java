@@ -13,11 +13,11 @@ public class Constants {
     public static final double PADDLE_WIDTH = 10;
     public static final double PADDLE_HEIGHT = 100;
     public static final Color PADDLE_COLOR = Color.WHITE;
-    public static final double PADDLE_SPEED=150;
+    public static final double PADDLE_SPEED=200;
 
     //Ball
     public static final double BALL_SIZE = 10;
-    public static final double BALL_SPEED=200;
+    public static final double BALL_SPEED=500;
     public static final double MAX_ANGLE=30;
 
     //Toolbar
