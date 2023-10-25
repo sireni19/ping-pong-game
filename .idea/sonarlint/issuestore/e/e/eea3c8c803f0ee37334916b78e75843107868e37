@@ -1,0 +1,15 @@
+
+L
+java:S1066+"/Merge this if statement with the enclosing one.(ÉÚô‘8Ÿîô›¶1
+L
+java:S10663"/Merge this if statement with the enclosing one.(’ÅòÁ8 îô›¶1
+Q
+java:S1066@"/Merge this if statement with the enclosing one.(î¹ªÃıÿÿÿÿ8 îô›¶1
+K
+java:S1066A"/Merge this if statement with the enclosing one.(ôÑ8 îô›¶1
+
+java:S1488"]Immediately return this expression instead of assigning it to the temporary variable "theta".(±Úêşÿÿÿÿ8 îô›¶1
+t
+java:S3776 "RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(ÊŸ¦Øûÿÿÿÿ8ˆïô›¶1
+G	java:S106["+Replace this use of System.out by a logger.(´ÃùË8ïô›¶1
+G	java:S106f"+Replace this use of System.out by a logger.(û­ˆú8Ô­õ›¶1

@@ -1,0 +1,12 @@
+
+0
+java:S1700"Rename field "text"(š²ûÁ8¦èÄš¶1
+<
+java:S1659
+"Declare "y" on a separate line.(èçÕ8©èÄš¶1
+X
+java:S1128"6Remove this unused import 'lombok.AllArgsConstructor'.(´œ¾öùÿÿÿÿ8×Çãš¶1
+J
+java:S1128"(Remove this unused import 'lombok.Data'.(÷í«ÿÿÿÿÿ8×Çãš¶1
+G
+java:S1128"*Remove this unused import 'lombok.Getter'.(ùÒµÙ8òøº›¶1
